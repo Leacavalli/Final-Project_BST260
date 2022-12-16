@@ -331,22 +331,22 @@ df_vax_rates &lt;- tab_vax_rates_raw |&gt;
   filter(!is.na(people_fully_vaccinated)) |&gt;
   group_by(location, continent) |&gt;
   summarise(fully_vax_count= max(people_fully_vaccinated)) |&gt;
-  rename(Country =location, Continent=continent) </code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;location&#39;. You can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>df_vax_rates</code></pre>
+  rename(Country =location, Continent=continent) 
+
+df_vax_rates</code></pre>
 <pre><code>## # A tibble: 235 × 3
 ## # Groups:   Country [235]
 ##    Country             Continent       fully_vax_count
 ##    &lt;chr&gt;               &lt;chr&gt;                     &lt;dbl&gt;
 ##  1 Afghanistan         &quot;Asia&quot;                 10615628
-##  2 Africa              &quot;&quot;                    373096334
+##  2 Africa              &quot;&quot;                    373098255
 ##  3 Albania             &quot;Europe&quot;                1269112
 ##  4 Algeria             &quot;Africa&quot;                6481186
 ##  5 Andorra             &quot;Europe&quot;                  53485
 ##  6 Angola              &quot;Africa&quot;                8193976
 ##  7 Anguilla            &quot;North America&quot;           10373
 ##  8 Antigua and Barbuda &quot;North America&quot;           62384
-##  9 Argentina           &quot;South America&quot;        37888014
+##  9 Argentina           &quot;South America&quot;        37889928
 ## 10 Armenia             &quot;Asia&quot;                   985807
 ## # … with 225 more rows</code></pre>
 </div>
@@ -416,9 +416,9 @@ df_GDP_per_capita &lt;- (tab_GDP_per_capita_raw[-1,] |&gt;
   select(`Country/Territory`, 5) |&gt;
   rename(Country=`Country/Territory`, GDP_per_capita = Estimate)|&gt;
   mutate(GDP_per_capita= as.numeric(gsub(&quot;,&quot;, &quot;&quot;, GDP_per_capita)),
-         Country= str_trim(gsub(&quot;\\*&quot;, &quot;&quot;, Country) ) ))[-1,]</code></pre>
-<pre><code>## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
-<pre class="r"><code>df_GDP_per_capita</code></pre>
+         Country= str_trim(gsub(&quot;\\*&quot;, &quot;&quot;, Country) ) ))[-1,]
+
+df_GDP_per_capita</code></pre>
 <pre><code>## # A tibble: 223 × 2
 ##    Country        GDP_per_capita
 ##    &lt;chr&gt;                   &lt;dbl&gt;
@@ -538,14 +538,9 @@ analysis_df &lt;- left_join(df_covid_rates, df_vax_rates) |&gt;
   left_join(df_pop_density)|&gt;
   left_join(df_GDP_per_capita)|&gt;
   left_join(df_obesity_rates)|&gt;
-  left_join(df_CVD_rate)</code></pre>
-<pre><code>## Joining, by = &quot;Country&quot;
-## Joining, by = &quot;Country&quot;
-## Joining, by = &quot;Country&quot;
-## Joining, by = &quot;Country&quot;
-## Joining, by = &quot;Country&quot;
-## Joining, by = &quot;Country&quot;</code></pre>
-<pre class="r"><code>analysis_df[which(is.na(analysis_df$Continent)),]$Continent &lt;- c(&quot;Asia&quot;,&quot;Africa&quot;)
+  left_join(df_CVD_rate)
+
+analysis_df[which(is.na(analysis_df$Continent)),]$Continent &lt;- c(&quot;Asia&quot;,&quot;Africa&quot;)
 
 # write.csv(analysis_df, &quot;analysis_df.csv&quot;)
 
@@ -554,14 +549,14 @@ analysis_df</code></pre>
 ##    Country                Total_cases Total_deaths Pop_millions Continent     fully_vax_count Percent_Over_65   km2 GDP_per_capita Obesi…¹ cvd_d…²
 ##    &lt;chr&gt;                        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 Peru                       3691213       213714        33.0  South America        28382375            8.05    26           6692    19.7    88.6
-##  2 Bulgaria                   1180636        37279         6.93 Europe                2074555           20.1     62          11635    25     541. 
+##  2 Bulgaria                   1180636        37279         6.93 Europe                2074576           20.1     62          11635    25     541. 
 ##  3 Bosnia and Herzegovina      379982        15810         3.28 Europe                 846080           16.2     64           6916    17.9   344. 
 ##  4 Hungary                    1932788        46661         9.75 Europe                6206878           20.7    104          18773    26.4   302. 
 ##  5 Georgia                    1662299        16844         3.71 Asia                  1276173           16.8     53           5042    21.7   454  
 ##  6 North Macedonia             316729         9337         2.07 Europe                 838032           14.2     82           6721    22.4   569. 
 ##  7 Moldova                     521182        11570         2.62 Europe                1073162           14.0     90           5315    18.9   405. 
-##  8 Croatia                    1160253        16124         4.05 Europe                2250353           21.1     72          17399    24.4   266. 
-##  9 Czech Republic             3943792        40334        10.7  Europe                6891525           20.2    133          26379    26     232. 
+##  8 Croatia                    1160253        16124         4.05 Europe                2250364           21.1     72          17399    24.4   266. 
+##  9 Czech Republic             3943792        40334        10.7  Europe                6891491           20.2    133          26379    26     232. 
 ## 10 Slovakia                   2559088        20163         5.46 Europe                2577827           17.0    111          21088    20.5   299. 
 ## # … with 144 more rows, and abbreviated variable names ¹​Obesity_rate, ²​cvd_death_rate</code></pre>
 </div>
