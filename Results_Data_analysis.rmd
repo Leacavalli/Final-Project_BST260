@@ -1,0 +1,37 @@
+---
+title: 'Results: Data analysis'
+---
+
+
+After fitting our linear regression model, we observed that the total number of cases (p< 2e-16), the population size, and the Obesity rate (p=0.00136 ) were significantly positively associated with the total number of deaths, while the GDP per capita (p=0.00260) was negatively associated with the outcome (Table 3). Specifically, the number of deaths when all covariates were set to 0 was -8170, and increased by around 0.011 for each unit increase in cumulative number of cases and 1666.766 for each unit increase in percentage point of the population obese, while it decreased by -0.881 for each unit decrease in GDP per capita. In turn, there was no significant association between the outcome and either the total number of fully vaccinated individuals, the population size, the percentage of the population over 65, the population density and the rate of CVD mortality. 
+
+```{r,echo=FALSE, message=FALSE,results='asis', warning=FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(caret)
+library(FNN)
+
+analysis_df <- read.csv("analysis_df.csv")
+
+# Run the analysis: linear regression
+mod <- lm(Total_deaths ~ Total_cases+ fully_vax_count+ Pop_millions+Percent_Over_65 + km2+ GDP_per_capita + Obesity_rate  + cvd_death_rate, analysis_df)
+# check assumptions through diagnostic plots 
+# par(mfrow=c(2,2)) 
+# plot(mod)
+
+# check results 
+mod_results <- as_tibble(summary(mod)$coef) |>
+  mutate(Estimate=round(Estimate,3))|>
+  rename("P-value"=`Pr(>|t|)`)|>
+  select(-`t value`) |>
+  mutate(Variable= c("Intercept","Number of cases", "Number fully vaccinated", "Population (millions)", "Percentage over65" , "Population density (km2)","GDP per capita" , "Obesity rate (%)" ,"CVD death rate"), .before=Estimate)
+
+
+knitr::kable(mod_results, 
+             caption ="Table 3. Exponentiated Linear regression coefficients with p-values",
+             format.args = list(big.mark = ",")) %>%
+  kable_styling(font_size = 15,
+                bootstrap_options = c("striped", "hover", "condensed")) 
+
+```

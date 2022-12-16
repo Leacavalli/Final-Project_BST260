@@ -1,0 +1,18 @@
+name: "my-website"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Introduction"
+      href: Introduction.html
+    - text: "Results: Web scraping and Data wrangling"
+      href: Results_Web_scraping_and_Data_wrangling.html
+    - text: "Results: Data analysis"
+      href: Results_Data_analysis.html
+    - text: "Conclusion"
+      href: Conclusion.html
+    - text: "References"
+      href: References.html
+    - text: "Appendix"
+      href: Appendix.html

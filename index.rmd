@@ -1,0 +1,11 @@
+---
+title: "Home"
+---
+
+Author: Léa Cavalli 
+
+Date: 12/15/2022
+
+Welcome to my BST260 final Project Github page !
+
+Topic: *A regression analysis for predicting the per-country cumulative number of Covid-19 deaths.* 
