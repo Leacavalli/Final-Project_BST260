@@ -22,7 +22,7 @@ library(RCurl)
 
 ## Web scraping
 # Load Covid mortality 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 html_covid_rates <- read_html("https://www.statista.com/statistics/1104709/coronavirus-deaths-worldwide-per-million-inhabitants/")
 tab_covid_rates_raw <- (html_covid_rates |> html_nodes("table"))[[1]] |> html_table()
 df_covid_rates <- tab_covid_rates_raw |>
@@ -37,7 +37,7 @@ df_covid_rates
 ```
 
 # Load vaccination counts
-```{r}
+```{r, message=FALSE, warning=FALSE}
 url <- getURL("https://covid.ourworldindata.org/data/owid-covid-data.csv")
 tab_vax_rates_raw <- read.csv(text = url)
 df_vax_rates <- tab_vax_rates_raw |>
@@ -53,7 +53,7 @@ df_vax_rates
 
 
 # Load proportion of the population above 65
-```{r}
+```{r, message=FALSE, warning=FALSE}
 html_above_65 <- read_html("https://en.wikipedia.org/wiki/List_of_countries_by_age_structure")
 tab_above_65_raw <- html_table(html_node(html_above_65, ".wikitable"), fill = T)
 colnames(tab_above_65_raw) <- tab_above_65_raw[1, ] 
@@ -69,7 +69,7 @@ df_above_65
 ```
 
 # Load Population density 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 html_pop_density <- read_html("https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_by_population_density")
 tab_pop_density_raw <- html_table(html_node(html_pop_density, ".wikitable"), fill = T)
 colnames(tab_pop_density_raw) <- tab_pop_density_raw[1, ]
@@ -86,7 +86,7 @@ df_pop_density
 
 
 # Load GDP per capita
-```{r}
+```{r, message=FALSE, warning=FALSE}
 html_GDP_per_capita <- read_html("https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)_per_capita")
 tab_GDP_per_capita_raw <- html_table(html_node(html_GDP_per_capita, ".wikitable"), fill = T)
 colnames(tab_GDP_per_capita_raw) <- tab_GDP_per_capita_raw[1, ]
@@ -101,7 +101,7 @@ df_GDP_per_capita
 ```
 
 # Load obesity rates
-```{r}
+```{r, message=FALSE, warning=FALSE}
 html_obesity_rates <- read_html("https://en.wikipedia.org/wiki/List_of_sovereign_states_by_obesity_rate")
 tab_obesity_rates_raw <- html_table(html_node(html_obesity_rates, ".wikitable"), fill = T)
 
@@ -113,7 +113,7 @@ df_obesity_rates
 
 
 # Load cardiovascular disease rate
-```{r}
+```{r, message=FALSE, warning=FALSE}
 tab_CVD_rate_raw <- owid("cardiovascular-disease-death-rates")
 df_CVD_rate <- tab_CVD_rate_raw |>
   rename(Country =entity, cvd_death_rate="Deaths - Cardiovascular diseases - Sex: Both - Age: Age-standardized (Rate)") |>
@@ -127,7 +127,7 @@ df_CVD_rate
 
 
 # format country names 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # df_covid_rates
 df_covid_rates$Country <- str_replace_all(df_covid_rates$Country, "\\p{No}", "")
 df_covid_rates$Country <- gsub('USA', 'United States', df_covid_rates$Country)
@@ -175,7 +175,7 @@ df_CVD_rate$Country <- gsub("Czechia", "Czech Republic", df_CVD_rate$Country)
 
 
 # data wrangling: join tables
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # join and transform data to create the analysis-ready dataframe 
 analysis_df <- left_join(df_covid_rates, df_vax_rates) |>
   left_join(df_above_65)|>
@@ -192,7 +192,7 @@ analysis_df
 ```
 
 # Exploratory analysis
-```{r, message=FALSE,results='asis'}
+```{r, message=FALSE,results='asis', warning=FALSE}
 # Exploratory 
 analysis_df <- read.csv("analysis_df.csv")
 
